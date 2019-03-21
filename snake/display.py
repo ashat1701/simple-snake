@@ -18,7 +18,7 @@ class Display:
         self.screen = curses.initscr()
         curses.noecho()
         curses.cbreak()
-        display.keypad(1)
+        self.screen.keypad(1)
         try:
             curses.start_color()
         except Exception:
@@ -27,11 +27,16 @@ class Display:
         self.screen.resize(self.rows, self.columns)
         curses.curs_set(0)
         self.screen.border(0)
+        self.screen.refresh()
 
 
 def draw_xy(x, y, sym):
     display = Display.inst()
-    display.screen.addstr(y, x, sym)
+    display.screen.addstr(y + 1, x + 1, sym)
+    display.screen.refresh()
+
+def get_field_size():
+    return Display.inst().columns - 2, Display.inst().rows - 2
 
 
 def draw_snake(snake):
@@ -77,9 +82,7 @@ def init():
 
 
 def exit():
-    global display
-    if display != None:
-        display.keypad(0)
-        curses.echo()
-        curses.nocbreak()
-        curses.endwin()
+    Display.inst().screen.keypad(0)
+    curses.echo()
+    curses.nocbreak()
+    curses.endwin()

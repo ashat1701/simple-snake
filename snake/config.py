@@ -20,6 +20,7 @@ class Settings:
             self.settings["tail_tile"] = "="
             self.settings["background_tile"] = " "
             self.settings["apple_tile"] = "@"
+            self.settings["update_time"] = 0.1
 
 def init():
     set = Settings.inst()
